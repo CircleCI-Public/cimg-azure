@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+repository=azure
+parent=deploy
+variants=()
+namespace=cimg
