@@ -13,7 +13,7 @@ interval="monthly"
 function azureFeed() {
   replaceDatedTags "$templateFile" "$interval"
   if docker buildx imagetools inspect "$namespace/$parent:$RELEASE-node" &> /dev/null; then
-    [[ -n $STRING_TO_REPLACE || -n $RELEASEMONTHLY ]] && ./shared/release "$RELEASEMONTHLY"
+    [[ -n $STRING_TO_REPLACE || -n $RELEASEMONTHLY ]] && ./shared/release "$RELEASEMONTHLY" || exit 0
   else
     echo "cimg/deploy:$RELEASE-node does not exist"
     exit 0
