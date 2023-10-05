@@ -1,7 +1,8 @@
 version: 2.1
 
 orbs:
-  cimg: circleci/cimg@0.3.3
+  cimg: circleci/cimg@0.5.2
+  slack: circleci/slack@4.12.1
   gh: circleci/github-cli@2.2.0
 
 parameters:
@@ -21,23 +22,23 @@ workflows:
       not: << pipeline.parameters.trigger >>
     jobs:
       - cimg/build-and-deploy:
-          name: "Staging"
           docker-namespace: ccitest
           docker-repository: azure
-          publish-branch: test
-          filters:
-            branches:
-              ignore:
-                - main
+          publish-branch: main
+          s3_write_arn: arn:aws:iam::483285841698:role/cpe-images-bucket-write
+          s3_read_arn: arn:aws:iam::483285841698:role/cpe-images-bucket-read
+          sign_arn: arn:aws:iam::483285841698:role/cpe-kms-sign
           context: cimg-publishing
-      - cimg/build-and-deploy:
-          name: "Deploy"
-          docker-repository: azure
-          filters:
-            branches:
-              only:
-                - main
-          context: cimg-publishing
+          post-steps:
+            - slack/notify:
+                branch_pattern: release-v.+
+                event: pass
+                template: basic_success_1
+            - slack/notify:
+                branch_pattern: main
+                event: fail
+                mentions: "@images"
+                template: basic_fail_1
 
 jobs:
   check-feed:
