@@ -9,15 +9,7 @@ source ./manifest
 
 templateFile="Dockerfile.template"
 interval="monthly"
+VERSION=$( date +%Y.%m )
 
-function azureFeed() {
-  replaceDatedTags "$templateFile" "$interval"
-  if docker buildx imagetools inspect "$namespace/$parent:$RELEASE-node" &> /dev/null; then
-    [[ -n $STRING_TO_REPLACE || -n $RELEASEMONTHLY ]] && ./shared/release "$RELEASEMONTHLY" || exit 0
-  else
-    echo "cimg/deploy:$RELEASE-node does not exist"
-    exit 0
-  fi
-}
-
-azureFeed "$templateFile"
+replaceDatedTags "$templateFile" "$interval"
+releaseDeployImage "$VERSION"
