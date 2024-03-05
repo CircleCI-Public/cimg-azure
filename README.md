@@ -47,7 +47,6 @@ In the above example, the CircleCI Azure Docker image is used for the primary co
 More specifically, the tag `2022.08.1` is used meaning this is the 1st August 2022 snapshot.
 You can now use all of the tools pre-installed in this image in this job.
 
-
 ## How This Image Works
 
 This image is published on a monthly basis.
