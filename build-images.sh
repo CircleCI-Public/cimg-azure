@@ -4,4 +4,4 @@ set -eo pipefail
 
 docker context create cimg
 docker buildx create --use cimg
-docker buildx build --platform=linux/amd64,linux/arm64 --file 2026.07/Dockerfile -t cimg/azure:2026.07.1 -t cimg/azure:2026.07 --push .
+docker buildx build --platform=linux/amd64,linux/arm64 --file 2026.09/Dockerfile -t cimg/azure:2026.09.1 -t cimg/azure:2026.09 --push .
